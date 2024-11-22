@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/prodi/create', [ProdiController::class, 'create'])->name('prodi/create');
 Route::post('/prodi/save', [ProdiController::class, 'save'])->name('prodi/save');
 Route::get('/prodi/edit/{id}', [ProdiController::class, 'edit'])->name('prodi/edit');
-Route::put('/prodi/edit/{id}', [ProdiController::class, 'update'])->name('prodi/update');
+Route::put('/prodi/{id}/', [ProdiController::class, 'update'])->name('prodi/update');
 });
 
 require __DIR__.'/auth.php';
