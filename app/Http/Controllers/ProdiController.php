@@ -51,4 +51,18 @@ class ProdiController extends Controller
 
         return redirect()->route('prodi.index')->with('success', 'Program Studi berhasil diupdate');
     }
+    public function delete($id)
+{
+    $prodi = Prodi::findOrFail($id);
+    $prodi->delete();
+
+    return redirect()->route('prodi')->with('success', 'Data Program Studi berhasil dihapus');
+}
+public function index(Request $request)
+{
+    $search = $request->input('search');
+    $prodis = Prodi::where('nama', 'like', '%' . $search . '%')->orderBy('id', 'desc')->get();
+
+    return view('prodi.index', compact('prodis', 'search'));
+}
 }
