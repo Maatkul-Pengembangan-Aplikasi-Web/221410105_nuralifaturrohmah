@@ -3,15 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prodi;
-
 use Illuminate\Http\Request;
 
 class ProdiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $prodis = Prodi::orderBy('id', 'desc')->get();
-        return view('prodi.index', compact('prodis'));
+        // Cek apakah ada pencarian
+        $search = $request->input('search');
+
+        if ($search) {
+            // Jika ada, cari berdasarkan nama
+            $prodis = Prodi::where('nama', 'like', '%' . $search . '%')->orderBy('id', 'desc')->get();
+        } else {
+            // Jika tidak ada pencarian, tampilkan semua data
+            $prodis = Prodi::orderBy('id', 'desc')->get();
+        }
+
+        // Kembalikan view dengan data prodis
+        return view('prodi.index', compact('prodis', 'search'));
     }
 
     public function create()
@@ -29,7 +39,8 @@ class ProdiController extends Controller
             'nama' => $request->nama
         ]);
 
-        return redirect()->route('prodi.index')->with('success', 'Program Studi berhasil ditambahkan');
+        // Redirect back to the Prodi index route with a success message
+        return redirect()->route('/prodi')->with('success', 'Program Studi berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -49,20 +60,14 @@ class ProdiController extends Controller
             'nama' => $request->nama
         ]);
 
-        return redirect()->route('prodi.index')->with('success', 'Program Studi berhasil diupdate');
+        return redirect()->route('/prodi')->with('success', 'Program Studi berhasil diupdate');
     }
+
     public function delete($id)
-{
-    $prodi = Prodi::findOrFail($id);
-    $prodi->delete();
+    {
+        $prodi = Prodi::findOrFail($id);
+        $prodi->delete();
 
-    return redirect()->route('prodi')->with('success', 'Data Program Studi berhasil dihapus');
-}
-public function index(Request $request)
-{
-    $search = $request->input('search');
-    $prodis = Prodi::where('nama', 'like', '%' . $search . '%')->orderBy('id', 'desc')->get();
-
-    return view('prodi.index', compact('prodis', 'search'));
-}
+        return redirect()->route('/prodi')->with('success', 'Data Program Studi berhasil dihapus');
+    }
 }
