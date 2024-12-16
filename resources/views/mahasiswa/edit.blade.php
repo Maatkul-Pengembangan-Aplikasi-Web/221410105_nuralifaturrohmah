@@ -13,12 +13,14 @@
             @endif
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form action="{{ route('mahasiswa.save') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('mahasiswa.update', $mahasiswa->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <div class="row mb-3">
                             <div class="col"> Nama Lengkap
-                                <input type="text" name="nama" class="form-control"
-                                    placeholder="Wiwin Kartini">
+                                <input type="text" name="nama" class="form-control" placeholder="Aa Herdi Prayoga"
+                                    value="{{ $mahasiswa->nama }}">
                                 @error('nama')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -26,7 +28,8 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col"> NPM
-                                <input type="number" name="npm" class="form-control" placeholder="221410006">
+                                <input type="number" name="npm" class="form-control" placeholder="191410001"
+                                    value="{{ $mahasiswa->npm }}">
                                 @error('npm')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -37,7 +40,10 @@
                                 <label for="prodi" class="form-label">Program Studi</label>
                                 <select name="prodi" class="form-control" id="prodi">
                                     @foreach ($prodis as $prodi)
-                                        <option value="{{ $prodi->nama }}">{{ $prodi->nama }}</option>
+                                        <option value="{{ $prodi->nama }}"
+                                            {{ $mahasiswa->prodi == $prodi->nama ? 'selected' : '' }}>
+                                            {{ $prodi->nama }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 @error('prodi')
@@ -45,6 +51,11 @@
                                 @enderror
                             </div>
                         </div>
+                        @if ($mahasiswa->foto)
+                            <div class="mb-3">
+                                <img src="{{ asset('fotomahasiswa/' . $mahasiswa->foto) }}" width="100">
+                            </div>
+                        @endif
                         <div class="row mb-3">
                             <div class="col"> Pas Foto
                                 <input type="file" name="foto" class="form-control">
