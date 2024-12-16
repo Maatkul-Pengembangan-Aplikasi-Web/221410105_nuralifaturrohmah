@@ -9,18 +9,14 @@ class ProdiController extends Controller
 {
     public function index(Request $request)
     {
-        // Cek apakah ada pencarian
-        $search = $request->input('search');
 
+        $search = $request->input('search');
         if ($search) {
-            // Jika ada, cari berdasarkan nama
             $prodis = Prodi::where('nama', 'like', '%' . $search . '%')->orderBy('id', 'desc')->get();
         } else {
-            // Jika tidak ada pencarian, tampilkan semua data
             $prodis = Prodi::orderBy('id', 'desc')->get();
         }
 
-        // Kembalikan view dengan data prodis
         return view('prodi.index', compact('prodis', 'search'));
     }
 
@@ -39,7 +35,6 @@ class ProdiController extends Controller
             'nama' => $request->nama
         ]);
 
-        // Redirect back to the Prodi index route with a success message
         return redirect()->route('/prodi')->with('success', 'Program Studi berhasil ditambahkan');
     }
 

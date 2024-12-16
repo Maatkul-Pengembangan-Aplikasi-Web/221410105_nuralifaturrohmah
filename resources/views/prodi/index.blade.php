@@ -33,7 +33,7 @@
                             <thead class="table-primary">
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Program Studi</th>
+                                    <th>Nama Prodi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -47,7 +47,7 @@
                                             <form action="{{ route('prodi.delete', $prodi->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="btn btn-danger">Hapus</button>
+                                                <button class="btn btn-danger">delete</button>
                                             </form>
                                         </td>
                                     </tr>
